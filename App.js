@@ -17,6 +17,28 @@ import { useFocusEffect } from "@react-navigation/native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as SQLite from "expo-sqlite/legacy";
 import Dashboard from "./component/Dashboard";
+import 'expo-dev-client'
+import { BannerAd, BannerAdSize, TestIds, useForeground } from 'react-native-google-mobile-ads';
+import Diagnostics from "./component/Diagnostics";
+import CameraFunction from "./component/Diagnostics/CameraFunction";
+import Display from "./component/Diagnostics/Display";
+import Pills from "./component/Pills";
+import AddMedicine from "./component/PillTracker/AddMedicine";
+import EditMedicine from "./component/PillTracker/EditMedicine";
+import BloodPressure from "./component/BloodPressure";
+import BloodSugar from "./component/BloodSugar";
+import Doctors from "./component/Doctors";
+import EditDoctor from "./component/Doctors/EditDoctor";
+import AddDoctor from "./component/Doctors/AddDoctor";
+import History from "./component/History";
+import DailyActivity from "./component/History/DailyActivity";
+import Settings from "./component/Settings";
+import EditProfile from "./component/Settings/EditProfile";
+import PrivacyPolicy from "./component/Settings/PrivacyPolicy";
+import 'expo-dev-client'
+
+const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : 'ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy';
+
 
 //DATABASE
 const db = SQLite.openDatabase("medlogger.db");
@@ -38,6 +60,8 @@ function HomeScreen({ navigation }) {
   const [visibleBreakfast, setVisibleBreakfast] = useState(false);
   const [visibleLunch, setVisibleLunch] = useState(false);
   const [visibleDinner, setVisibleDinner] = useState(false);
+
+  const bannerRef = useRef(null);
 
   const toggleWeightUnit = () => {
     setWeightUnit((prevState) => !prevState);
@@ -145,17 +169,7 @@ function HomeScreen({ navigation }) {
     let lunchTime = getFormattedTime(lunch);
     let dinnerTime = getFormattedTime(dinner);
 
-    console.log(
-      name,
-      age,
-      weightResult,
-      heightResult,
-      breakfastTime,
-      lunchTime,
-      dinnerTime
-    );
-
-    // Handle form submission
+     // Handle form submission
     db.transaction((tx) => {
       tx.executeSql(
         "INSERT INTO userData (name, age, weight, height, breakfast, lunch, dinner) values (?, ?, ?, ?, ?, ?, ?)",
@@ -472,6 +486,7 @@ function HomeScreen({ navigation }) {
             </ScrollView>
           </View>
         </Modal>
+        <BannerAd ref={bannerRef} unitId={adUnitId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} />
       </ImageBackground>
     </View>
   );
@@ -511,6 +526,150 @@ export default function App() {
         <Stack.Screen
           name="Menu"
           component={Dashboard}
+          options={() => ({
+            headerStyle: {
+              backgroundColor: "#800000",
+            },
+          })}
+        />
+        <Stack.Screen
+          name="Blood Pressure"
+          component={BloodPressure}
+          options={() => ({
+            headerStyle: {
+              backgroundColor: "#800000",
+            },
+          })}
+        />
+        <Stack.Screen
+          name="Blood Sugar"
+          component={BloodSugar}
+          options={() => ({
+            headerStyle: {
+              backgroundColor: "#800000",
+            },
+          })}
+        />
+        <Stack.Screen
+          name="Diagnostic Reports"
+          component={Diagnostics}
+          options={() => ({
+            headerStyle: {
+              backgroundColor: "#800000",
+            },
+          })}
+        />
+        <Stack.Screen
+          name="Camera"
+          component={CameraFunction}
+          options={() => ({
+            headerStyle: {
+              backgroundColor: "#800000",
+            },
+          })}
+        />
+        <Stack.Screen
+          name="Image"
+          component={Display}
+          options={() => ({
+            headerStyle: {
+              backgroundColor: "#800000",
+            },
+          })}
+        />
+        <Stack.Screen
+          name="Pill Tracker"
+          component={Pills}
+          options={() => ({
+            headerStyle: {
+              backgroundColor: "#800000",
+            },
+          })}
+        />
+        <Stack.Screen
+          name="Add Medicine"
+          component={AddMedicine}
+          options={() => ({
+            headerStyle: {
+              backgroundColor: "#800000",
+            },
+          })}
+        />
+        <Stack.Screen
+          name="Edit Medication"
+          component={EditMedicine}
+          options={() => ({
+            headerStyle: {
+              backgroundColor: "#800000",
+            },
+          })}
+        />
+        <Stack.Screen
+          name="Your Doctors"
+          component={Doctors}
+          options={() => ({
+            headerStyle: {
+              backgroundColor: "#800000",
+            },
+          })}
+        />
+        <Stack.Screen
+          name="Add Doctor Information"
+          component={AddDoctor}
+          options={() => ({
+            headerStyle: {
+              backgroundColor: "#800000",
+            },
+          })}
+        />
+        <Stack.Screen
+          name="Edit Doctor Information"
+          component={EditDoctor}
+          options={() => ({
+            headerStyle: {
+              backgroundColor: "#800000",
+            },
+          })}
+        />
+        <Stack.Screen
+          name="History"
+          component={History}
+          options={() => ({
+            headerStyle: {
+              backgroundColor: "#800000",
+            },
+          })}
+        />
+        <Stack.Screen
+          name="Day's Activity"
+          component={DailyActivity}
+          options={() => ({
+            headerStyle: {
+              backgroundColor: "#800000",
+            },
+          })}
+        />
+        <Stack.Screen
+          name="Settings"
+          component={Settings}
+          options={() => ({
+            headerStyle: {
+              backgroundColor: "#800000",
+            },
+          })}
+        />
+        <Stack.Screen
+          name="Edit Profile"
+          component={EditProfile}
+          options={() => ({
+            headerStyle: {
+              backgroundColor: "#800000",
+            },
+          })}
+        />
+        <Stack.Screen
+          name="Privacy Policy"
+          component={PrivacyPolicy}
           options={() => ({
             headerStyle: {
               backgroundColor: "#800000",

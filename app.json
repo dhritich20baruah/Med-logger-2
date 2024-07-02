@@ -18,10 +18,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.dhritich20baruah.medlogger"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f59d50dc-60bf-41e8-bc50-063ec365dd01"
+      }
     }
+  },
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-4558946228793580~9644179744"
   }
 }

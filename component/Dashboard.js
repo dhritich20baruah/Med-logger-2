@@ -10,7 +10,6 @@ import {
 import FontAwesome from "@expo/vector-icons/FontAwesome6";
 import * as SQLite from "expo-sqlite/legacy";
 
-
 //DATABASE
 const db = SQLite.openDatabase("medlogger.db");
 
@@ -27,6 +26,13 @@ const Dashboard = ({ navigation, route }) => {
         [userID],
         (txObj, resultSet) => setUsers(resultSet.rows._array),
         (txObj, error) => console.log(error)
+      );
+    });
+
+    // CREATE DIAGNOSTIC REPORTS TABLE
+    db.transaction((tx) => {
+      tx.executeSql(
+        "CREATE TABLE IF NOT EXISTS diagnosticReports (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, date TEXT, uri TEXT, doctor TEXT, notes TEXT)"
       );
     });
   });
@@ -147,8 +153,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cell: {
-    width: '50%',
-    height: 'auto',
+    width: "50%",
+    height: "auto",
     backgroundColor: "white",
     margin: 5,
     padding: 5,
