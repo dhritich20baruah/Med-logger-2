@@ -24,7 +24,9 @@ const Dashboard = ({ navigation, route }) => {
       tx.executeSql(
         "SELECT * FROM userData WHERE id = ?",
         [userID],
-        (txObj, resultSet) => setUsers(resultSet.rows._array),
+        (txObj, resultSet) =>{
+          setUsers(resultSet.rows._array);
+        },
         (txObj, error) => console.log(error)
       );
     });
