@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Text,
   View,
@@ -8,14 +8,18 @@ import {
   Alert,
   ScrollView,
   StyleSheet,
+  Button
 } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import ScrollPicker from "react-native-wheel-scrollview-picker";
-import * as SQLite from 'expo-sqlite/legacy'
+import * as SQLite from "expo-sqlite/legacy";
+
+//DATABASE
+const db = SQLite.openDatabase("medlogger.db");
 
 export default function AddMedicine({ navigation, route }) {
-  const { userID, timings } = route.params;
-  console.log(timings)
+  const { userID, timings, users } = route.params;
   const [medicineName, setMedicineName] = useState("");
 
   let dateString = new Date().toISOString();
@@ -45,21 +49,20 @@ export default function AddMedicine({ navigation, route }) {
   });
   const [allSelected, setAllSelected] = useState(false);
 
-   //DATABASE
-   const db = SQLite.openDatabase("medlogger.db");
+  const fetchUser = () => {
+    console.log('user data')
 
-   useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT breakfast, lunch, dinner FROM userData WHERE id = ?",
+        "SELECT * FROM userData WHERE id = ?",
         [userID],
         (txObj, resultSet) => {
-          console.log("times", resultSet.rows._array)
+          console.log("users", resultSet.rows._array)
         },
         (txObj, error) => console.log(error)
       );
     });
-  }, []);
+  }
 
    // Scroll picker
    const daysWeeksMonths = ["Days", "Weeks", "Months"];
@@ -190,13 +193,13 @@ export default function AddMedicine({ navigation, route }) {
               days.friday ? 1 : 0,
               days.saturday ? 1 : 0,
               timing.BeforeBreakfast
-                ? subtractMinutes(timings[0].breakfast)
+                ? subtractMinutes(users[0].breakfast)
                 : "",
-              timing.AfterBreakfast ? timings[0].breakfast : "",
-              timing.BeforeLunch ? subtractMinutes(timings[0].lunch) : "",
-              timing.AfterLunch ? timings[0].lunch : "",
-              timing.BeforeDinner ? subtractMinutes(timings[0].dinner) : "",
-              timing.AfterDinner ? timings[0].dinner : "",
+              timing.AfterBreakfast ? users[0].breakfast : "",
+              timing.BeforeLunch ? subtractMinutes(users[0].lunch) : "",
+              timing.AfterLunch ? users[0].lunch : "",
+              timing.BeforeDinner ? subtractMinutes(users[0].dinner) : "",
+              timing.AfterDinner ? users[0].dinner : "",
               userID,
             ],
             (txObj, resultSet) => {
@@ -209,6 +212,8 @@ export default function AddMedicine({ navigation, route }) {
       }, 100); // Adding a small delay to ensure state is updated
     }
   };
+
+
 
   return (
     <ScrollView>

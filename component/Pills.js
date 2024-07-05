@@ -7,14 +7,18 @@ import {
   View,
   Alert,
   Modal,
+  Button
 } from "react-native";
 import { Agenda } from "react-native-calendars";
-import * as SQLite from "expo-sqlite/legacy";
 import FontAwesome from "@expo/vector-icons/FontAwesome6";
 import { useFocusEffect } from "@react-navigation/native";
+import * as SQLite from "expo-sqlite/legacy";
 
-export default function Pills({ navigation, route }) {
-  const { userID } = route.params;
+//DATABASE
+const db = SQLite.openDatabase("medlogger.db");
+
+const Pills = ({ navigation, route }) => {
+  const { userID, users } = route.params;
   const [timings, setTimings] = useState([]);
   const [medicineData, setMedicineData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(
@@ -22,9 +26,6 @@ export default function Pills({ navigation, route }) {
   );
   const [modalVisible, setModalVisible] = useState(false);
   const [medicineDetails, setMedicineDetails] = useState([]);
-
-  //DATABASE
-  const db = SQLite.openDatabase("medlogger.db");
 
   useFocusEffect(
     useCallback(() => {
@@ -52,7 +53,6 @@ export default function Pills({ navigation, route }) {
         [userID],
         (txObj, resultSet) => {
           setTimings(resultSet.rows._array);
-          console.log("times", resultSet.rows._array)
         },
         (txObj, error) => console.log(error)
       );
@@ -287,8 +287,9 @@ export default function Pills({ navigation, route }) {
           </TouchableOpacity>
         </View>
       </Modal>
+
       <TouchableOpacity
-        onPress={() => navigation.navigate("Add Medicine", { userID, timings })}
+        onPress={() => navigation.navigate("Add Medicine", { userID, timings, users })}
         style={styles.floatBtn}
       >
         <Text style={styles.btnText}>Add Medicine +</Text>
@@ -426,3 +427,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
+export default Pills;

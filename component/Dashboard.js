@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
+  Button
 } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome6";
 import * as SQLite from "expo-sqlite/legacy";
@@ -15,7 +16,7 @@ const db = SQLite.openDatabase("medlogger.db");
 
 const Dashboard = ({ navigation, route }) => {
   const [users, setUsers] = useState([
-    { id: "", name: "", weight: "", height: "" },
+    { id: "", name: "", weight: "", height: "", breakfast: "", dinner: "", lunch: "" },
   ]);
   const { userID } = route.params;
 
@@ -80,6 +81,7 @@ const Dashboard = ({ navigation, route }) => {
       >
         Hello, {users[0].name}
       </Text>
+
       <View style={styles.container}>
         <View style={styles.row}>
           <TouchableOpacity
@@ -93,7 +95,7 @@ const Dashboard = ({ navigation, route }) => {
             <Text style={styles.tileButton}>RECORD</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate("Pill Tracker", { userID })}
+            onPress={() => navigation.navigate("Pill Tracker", { userID, users })}
             style={styles.cell}
           >
             <FontAwesome name="pills" size={50} color="#800000" />

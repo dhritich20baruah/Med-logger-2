@@ -10,7 +10,7 @@ import {
   Modal,
   Alert
 } from "react-native";
-import Chart from "./Chart";
+// import Chart from "./Chart";
 import * as SQLite from "expo-sqlite/legacy";
 import { useNavigation } from "@react-navigation/native";
 import BloodSugarInfo from "./BloodSugarInfo";
@@ -442,7 +442,7 @@ export default function BloodSugar({ route }) {
           <Text style={{ textAlign: "center", color: "#800000", fontSize: 15 }}>
             Last Seven <Text style={{fontWeight: 'bold'}}>{graphType}</Text> Blood Sugar Readings
           </Text>
-          <Chart data={graphData}/>
+          {/* <Chart data={graphData}/> */}
         </View>
         <BloodSugarInfo/>
       </ScrollView>

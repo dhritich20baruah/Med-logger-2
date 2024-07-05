@@ -9,7 +9,7 @@ import {
   ScrollView,
   Alert
 } from "react-native";
-import Chart from "./Chart";
+// import Chart from "./Chart";
 import * as SQLite from 'expo-sqlite/legacy'
 
 export default function BloodPressure({ navigation, route }) {
@@ -128,7 +128,7 @@ export default function BloodPressure({ navigation, route }) {
         <Text style={{ textAlign: "center", margin: 10, color: "#800000" }}>
           Last Seven Blood Pressure Readings
         </Text>
-        <Chart data={pressureData} />
+        {/* <Chart data={pressureData} /> */}
         {/* Blood Pressure Insights */}
         <View style={{marginVertical: 10, backgroundColor: 'white', borderRadius: 10, padding: 10}}>
           <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 21, color: "#800000"}}>Stages of High Blood Pressure</Text>
