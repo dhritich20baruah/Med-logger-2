@@ -16,16 +16,18 @@ export default function History({ navigation, route }) {
 
   const db = SQLite.openDatabase("medlogger.db");
 
-   const marked = useMemo(() => ({
-    [selected]: {
-      selected: true,
-      selectedColor: '#800000',
-      selectedTextColor: 'yellow',
-    }
-  }), [selected]);
+  const marked = useMemo(
+    () => ({
+      [selected]: {
+        selected: true,
+        selectedColor: "#800000",
+        selectedTextColor: "yellow",
+      },
+    }),
+    [selected]
+  );
 
   const handleDate = (day) => {
-
     db.transaction((tx) => {
       tx.executeSql(
         "SELECT * FROM diagnosticReports WHERE user_id = ? AND date = ?",
@@ -86,14 +88,12 @@ export default function History({ navigation, route }) {
         },
         (txObj, error) => console.log(error)
       );
-    });   
+    });
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>
-        Select a date
-      </Text>
+      <Text style={styles.headerText}>Select a date</Text>
       <Calendar
         initialDate={new Date().toISOString().split("T")[0]}
         maxDate={new Date().toISOString().split("T")[0]}
@@ -106,9 +106,18 @@ export default function History({ navigation, route }) {
       />
       {/* Add more UI components to display the fetched data */}
       <Text style={styles.headerText2}>
-        Selected date: <Text style={{color: "#800000", fontWeight: 'bold'}}>{selected.split("-").reverse().join("-")}</Text>
+        Selected date:{" "}
+        <Text style={{ color: "#800000", fontWeight: "bold" }}>
+          {selected.split("-").reverse().join("-")}
+        </Text>
       </Text>
-      <Button title="View History" onPress={()=>{ navigation.navigate("Day's Activity", {selected, data})}} color={'#800000'}/>
+      <Button
+        title="View History"
+        onPress={() => {
+          navigation.navigate("Day's Activity", { selected, data });
+        }}
+        color={"#800000"}
+      />
     </View>
   );
 }
@@ -125,7 +134,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     margin: 15,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   headerText2: {
     textAlign: "center",
